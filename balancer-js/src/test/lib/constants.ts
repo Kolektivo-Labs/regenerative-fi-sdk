@@ -18,8 +18,7 @@ export const PROVIDER_URLS = {
   [Network.SEPOLIA]: `https://sepolia.infura.io/v3/${process.env.INFURA}`,
   [Network.GNOSIS]: `https://rpc.gnosis.gateway.fm`,
   [Network.ZKEVM]: `https://zkevm-rpc.com`,
-  [Network.ALFAJORES]: `https://alfajores-forno.celo-testnet.org
-  `,
+  [Network.ALFAJORES]: `https://celo-alfajores.infura.io/v3/${process.env.INFURA}`,
 };
 
 export type TestAddress = {
