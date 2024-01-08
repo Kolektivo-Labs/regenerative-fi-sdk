@@ -1,4 +1,10 @@
-import { Findable, Pool, PoolToken, Price } from '@/types';
+import {
+  BalancerNetworkConfig,
+  Findable,
+  Pool,
+  PoolToken,
+  Price,
+} from '@/types';
 import { PoolAttribute } from '../data';
 import { PoolTypeConcerns } from '../pools/pool-type-concerns';
 import { BigNumber } from '@ethersproject/bignumber';
@@ -12,10 +18,19 @@ export interface PoolBPTValue {
 }
 
 export class Liquidity {
+  private pools: Findable<Pool, PoolAttribute>;
+  private tokenPrices: Findable<Price>;
+  private chainId: number;
+
   constructor(
-    private pools: Findable<Pool, PoolAttribute>,
-    private tokenPrices: Findable<Price>
-  ) {}
+    pools: Findable<Pool, PoolAttribute>,
+    tokenPrices: Findable<Price>,
+    networkConfig: BalancerNetworkConfig
+  ) {
+    this.pools = pools;
+    this.tokenPrices = tokenPrices;
+    this.chainId = networkConfig.chainId;
+  }
 
   async getLiquidity(pool: Pool): Promise<string> {
     // Remove any tokens with same address as pool as they are pre-printed BPT
@@ -82,7 +97,8 @@ export class Liquidity {
     // }
 
     const tokenLiquidity = PoolTypeConcerns.from(
-      pool.poolType
+      pool.poolType,
+      this.chainId
     ).liquidity.calcTotal(nonPoolTokensWithUpdatedPrice);
 
     const parsedTokenLiquidity = parseFixed(tokenLiquidity, SCALE);
