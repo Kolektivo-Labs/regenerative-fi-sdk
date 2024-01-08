@@ -13,11 +13,17 @@ import { StablePoolExit } from '@/modules/pools/pool-types/concerns/stable/exit.
 import { StablePoolJoin } from '@/modules/pools/pool-types/concerns/stable/join.concern';
 
 export class MetaStable implements PoolType {
-  constructor(
-    public exit: ExitConcern = new StablePoolExit(),
-    public join: JoinConcern = new StablePoolJoin(),
-    public liquidity: LiquidityConcern = new MetaStablePoolLiquidity(),
-    public spotPriceCalculator: SpotPriceConcern = new MetaStablePoolSpotPrice(),
-    public priceImpactCalculator: PriceImpactConcern = new StablePoolPriceImpact()
-  ) {}
+  public exit: ExitConcern;
+  public join: JoinConcern;
+  public liquidity: LiquidityConcern;
+  public spotPriceCalculator: SpotPriceConcern;
+  public priceImpactCalculator: PriceImpactConcern;
+
+  constructor(chainId: number) {
+    this.exit = new StablePoolExit(chainId);
+    this.join = new StablePoolJoin(chainId);
+    this.liquidity = new MetaStablePoolLiquidity();
+    this.spotPriceCalculator = new MetaStablePoolSpotPrice();
+    this.priceImpactCalculator = new StablePoolPriceImpact();
+  }
 }

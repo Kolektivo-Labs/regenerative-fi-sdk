@@ -29,7 +29,7 @@ export class PoolTypeConcerns {
     this.weighted = new Weighted(networkConfig.chainId);
     this.stable = new Stable(networkConfig.chainId);
     this.composableStable = new ComposableStable(networkConfig.chainId);
-    this.metaStable = new MetaStable();
+    this.metaStable = new MetaStable(networkConfig.chainId);
     this.stablePhantom = new StablePhantom();
     this.linear = new Linear(networkConfig.chainId);
   }
@@ -58,7 +58,7 @@ export class PoolTypeConcerns {
         return new Gyro();
       }
       case 'MetaStable': {
-        return new MetaStable();
+        return new MetaStable(chainId);
       }
       case 'Stable': {
         return new Stable(chainId);
