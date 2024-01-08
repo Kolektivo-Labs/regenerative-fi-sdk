@@ -10,7 +10,7 @@ const sdk = new BalancerSDK({
   },
 });
 
-const { pools, tokenPrices } = sdk.data;
+const { tokenPrices } = sdk.data;
 async function main() {
   console.log(
     await tokenPrices.find('0x1d4c35c3f4a91103ba323fe2f4c3f6ebef531c11')

@@ -21,7 +21,7 @@ export class Linear implements PoolType {
 
   constructor(chainId: number) {
     this.exit = new LinearPoolExit(chainId);
-    this.join = new LinearPoolJoin(chainId);
+    this.join = new LinearPoolJoin();
     this.liquidity = new LinearPoolLiquidity();
     this.spotPriceCalculator = new LinearPoolSpotPrice();
     this.priceImpactCalculator = new LinearPriceImpact();

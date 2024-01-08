@@ -27,11 +27,11 @@ export class PoolTypeConcerns {
   constructor(config: BalancerSdkConfig) {
     const networkConfig = getNetworkConfig(config);
     this.weighted = new Weighted(networkConfig.chainId);
-    this.stable = new Stable();
+    this.stable = new Stable(networkConfig.chainId);
     this.composableStable = new ComposableStable(networkConfig.chainId);
     this.metaStable = new MetaStable();
     this.stablePhantom = new StablePhantom();
-    this.linear = new Linear();
+    this.linear = new Linear(networkConfig.chainId);
   }
 
   static from(
@@ -61,7 +61,7 @@ export class PoolTypeConcerns {
         return new MetaStable();
       }
       case 'Stable': {
-        return new Stable();
+        return new Stable(chainId);
       }
       case 'StablePhantom': {
         return new StablePhantom();
@@ -73,7 +73,7 @@ export class PoolTypeConcerns {
       }
       default: {
         // Handles all Linear pool types
-        if (isLinearish(poolType)) return new Linear();
+        if (isLinearish(poolType)) return new Linear(chainId);
         throw new BalancerError(BalancerErrorCode.UNSUPPORTED_POOL_TYPE);
       }
     }
