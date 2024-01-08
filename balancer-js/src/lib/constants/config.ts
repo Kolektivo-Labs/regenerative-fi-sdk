@@ -305,6 +305,53 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
       '0xeb30c85cc528537f5350cf5684ce6a4538e13394000200000000000000000059', // 3POOL_BPT/wstETH
     ],
   },
+  [Network.ALFAJORES]: {
+    chainId: Network.ALFAJORES,
+    // Gnosis deployment addresses: https://docs.balancer.fi/reference/contracts/deployment-addresses/gnosis.html
+    addresses: {
+      contracts: {
+        multicall: '0xcA11bde05977b3631167028862bE2a173976CA11',
+        poolDataQueries: '0xF8cE2b85Eae6Fd899Ac517EF153dfB38d527D1F3',
+        authorizer: '0x03eCF2CCfA707aeE1E5F07E920796c62bB1fb5Bc',
+        vault: '0xf2D39dd1b3e991f23d8a61bABb1c13873640873F',
+        protocolFeesCollector: '0x5Dd8459e1889Ec166085EF96AAf18591b1AB0B88',
+        balancerHelpers: '0xCFB54b5eaFe6E71FdC569736fF626D1f83a58B19',
+        protocolFeePercentagesProvider:
+          '0x73cB650e9f3CE181A684C7e28c8ee7626B448c50',
+        weightedPoolFactory: '0x997252b17F61fFc6Ca2fDDd7fa1Cb0cdb98f202D',
+        mockWeightedPool: '0x04E4BBA6BeaC4E1950a2cE8363849Ff24547fA09',
+        balancerPoolDataQueries: '0xF8cE2b85Eae6Fd899Ac517EF153dfB38d527D1F3',
+        balancerRelayer: '',
+      },
+      tokens: {
+        wrappedNativeAsset: '0x524d97a67f50f4a062c28c74f60703aec9028a94',
+        bal: '',
+      },
+    },
+    urls: {
+      subgraph:
+        'https://api.studio.thegraph.com/query/10166/balancer-rfi/version/latest',
+      gaugesSubgraph:
+        'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gauges-gnosis-chain',
+    },
+    thirdParty: {
+      coingecko: {
+        nativeAssetId: 'celo',
+        platformId: 'celo',
+      },
+    },
+    averageBlockTime: 5,
+    pools: {},
+    sorConnectingTokens: [
+      {
+        symbol: 'WCELO',
+        address: '0x524d97a67f50f4a062c28c74f60703aec9028a94',
+      },
+    ],
+    sorTriPathMidPoolIds: [
+      '', // 3POOL_BPT/wstETH
+    ],
+  },
   [Network.FANTOM]: {
     chainId: Network.FANTOM, //250
     //Fantom deployment addresses: https://docs.beets.fi/technicals/deployments
