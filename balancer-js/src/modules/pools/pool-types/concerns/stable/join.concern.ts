@@ -3,7 +3,6 @@ import { BigNumber } from '@ethersproject/bignumber';
 
 import { BalancerError, BalancerErrorCode } from '@/balancerErrors';
 import { Vault__factory } from '@/contracts/factories/Vault__factory';
-import { balancerVault } from '@/lib/constants/config';
 import { AssetHelpers, getEthValue, parsePoolInfo } from '@/lib/utils';
 import { subSlippage } from '@/lib/utils/slippageHelper';
 import { _upscaleArray } from '@/lib/utils/solidityMaths';
@@ -18,6 +17,7 @@ import {
   JoinPoolParameters,
 } from '../types';
 import { AddressZero } from '@ethersproject/constants';
+import { getVault } from '@/modules/sdk.helpers';
 
 type SortedValues = {
   poolTokens: string[];
@@ -37,6 +37,12 @@ type EncodeJoinPoolParams = {
   Pick<JoinPoolParameters, 'amountsIn' | 'tokensIn'>;
 
 export class StablePoolJoin implements JoinConcern {
+  private balancerVault: string;
+
+  constructor(chainId: number) {
+    this.balancerVault = getVault(chainId);
+  }
+
   buildJoin = ({
     joiner,
     pool,
@@ -197,7 +203,7 @@ export class StablePoolJoin implements JoinConcern {
       minBPTOut
     );
 
-    const to = balancerVault;
+    const to = this.balancerVault;
     const functionName = 'joinPool';
     const attributes: JoinPool = {
       poolId,

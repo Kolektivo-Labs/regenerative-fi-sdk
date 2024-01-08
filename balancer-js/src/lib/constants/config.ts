@@ -4,6 +4,21 @@ import addressesByNetwork from './addresses.json';
 
 export const balancerVault = '0xBA12222222228d8Ba445958a75a0704d566BF2C8';
 
+export const vaultAddresses: Record<number, string> = {
+  [Network.MAINNET]: balancerVault,
+  [Network.POLYGON]: balancerVault,
+  [Network.ARBITRUM]: balancerVault,
+  [Network.GOERLI]: balancerVault,
+  [Network.OPTIMISM]: balancerVault,
+  [Network.GNOSIS]: balancerVault,
+  [Network.FANTOM]: balancerVault,
+  [Network.BASE]: balancerVault,
+  [Network.ZKEVM]: balancerVault,
+  [Network.AVALANCHE]: balancerVault,
+  [Network.SEPOLIA]: balancerVault,
+  [Network.ALFAJORES]: '0xf2D39dd1b3e991f23d8a61bABb1c13873640873F',
+};
+
 // Info fetched using npm package slot20
 export const BPT_SLOT = 0;
 export const BPT_DECIMALS = 18;

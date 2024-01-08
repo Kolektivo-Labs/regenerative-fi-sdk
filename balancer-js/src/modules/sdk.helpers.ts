@@ -1,4 +1,7 @@
-import { BALANCER_NETWORK_CONFIG } from '@/lib/constants/config';
+import {
+  BALANCER_NETWORK_CONFIG,
+  vaultAddresses,
+} from '@/lib/constants/config';
 import { BalancerNetworkConfig, BalancerSdkConfig } from '@/types';
 export function getNetworkConfig(
   config: BalancerSdkConfig
@@ -24,4 +27,8 @@ export function getNetworkConfig(
     },
     tenderly: config.network.tenderly,
   };
+}
+
+export function getVault(chainId: number): string {
+  return vaultAddresses[chainId];
 }
