@@ -481,7 +481,11 @@ export class PoolApr {
    */
   private async totalLiquidity(pool: Pool): Promise<string> {
     try {
-      const liquidityService = new Liquidity(this.pools, this.tokenPrices);
+      const liquidityService = new Liquidity(
+        this.pools,
+        this.tokenPrices,
+        BALANCER_NETWORK_CONFIG[pool.chainId as Network]
+      );
       const liquidity = await liquidityService.getLiquidity(pool);
       return liquidity;
     } catch (err) {

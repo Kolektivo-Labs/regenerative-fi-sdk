@@ -13,11 +13,17 @@ import {
 } from './concerns/types';
 
 export class Linear implements PoolType {
-  constructor(
-    public exit: ExitConcern = new LinearPoolExit(),
-    public join: JoinConcern = new LinearPoolJoin(),
-    public liquidity: LiquidityConcern = new LinearPoolLiquidity(),
-    public spotPriceCalculator: SpotPriceConcern = new LinearPoolSpotPrice(),
-    public priceImpactCalculator: PriceImpactConcern = new LinearPriceImpact()
-  ) {}
+  public exit: ExitConcern;
+  public join: JoinConcern;
+  public liquidity: LiquidityConcern;
+  public spotPriceCalculator: SpotPriceConcern;
+  public priceImpactCalculator: PriceImpactConcern;
+
+  constructor(chainId: number) {
+    this.exit = new LinearPoolExit(chainId);
+    this.join = new LinearPoolJoin();
+    this.liquidity = new LinearPoolLiquidity();
+    this.spotPriceCalculator = new LinearPoolSpotPrice();
+    this.priceImpactCalculator = new LinearPriceImpact();
+  }
 }

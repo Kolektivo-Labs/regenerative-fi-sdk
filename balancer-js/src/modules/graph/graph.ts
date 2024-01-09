@@ -4,7 +4,7 @@ import { Zero, WeiPerEther } from '@ethersproject/constants';
 import { BalancerError, BalancerErrorCode } from '@/balancerErrors';
 import { isSameAddress, parsePoolInfo } from '@/lib/utils';
 import { _downscaleDown } from '@/lib/utils/solidityMaths';
-import { Pool, PoolAttribute, PoolType } from '@/types';
+import { BalancerNetworkConfig, Pool, PoolAttribute, PoolType } from '@/types';
 
 import { Findable } from '../data/types';
 import { PoolTypeConcerns } from '../pools/pool-type-concerns';
@@ -62,7 +62,16 @@ exitActions.set(PoolType.Weighted, 'exitPool');
 exitActions.set(PoolType.ComposableStable, 'exitPool');
 
 export class PoolGraph {
-  constructor(private pools: Findable<Pool, PoolAttribute>) {}
+  private pools: Findable<Pool, PoolAttribute>;
+  private chainId: number;
+
+  constructor(
+    pools: Findable<Pool, PoolAttribute>,
+    networkConfig: BalancerNetworkConfig
+  ) {
+    this.pools = pools;
+    this.chainId = networkConfig.chainId;
+  }
 
   async buildGraphFromRootPool(
     poolId: string,
@@ -136,7 +145,10 @@ export class PoolGraph {
 
     const tokenTotal = this.getTokenTotal(pool);
     // Spot price service
-    const { spotPriceCalculator } = PoolTypeConcerns.from(pool.poolType);
+    const { spotPriceCalculator } = PoolTypeConcerns.from(
+      pool.poolType,
+      this.chainId
+    );
     const spotPrices: SpotPrices = {};
     let decimals = 18;
     // Spot price of a path is product of the sp of each pool in path. We calculate the sp for each pool token here to use as required later.

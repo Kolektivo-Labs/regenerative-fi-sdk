@@ -13,7 +13,6 @@ import {
 import { AssetHelpers, isSameAddress, parsePoolInfo } from '@/lib/utils';
 import { Vault__factory } from '@/contracts/factories/Vault__factory';
 import { addSlippage, subSlippage } from '@/lib/utils/slippageHelper';
-import { balancerVault } from '@/lib/constants/config';
 import { BalancerError, BalancerErrorCode } from '@/balancerErrors';
 import { StablePoolEncoder } from '@/pool-stable';
 import {
@@ -24,6 +23,7 @@ import {
 import { Pool } from '@/types';
 import { BasePoolEncoder } from '@/pool-base';
 import { StablePoolPriceImpact } from '../stable/priceImpact.concern';
+import { getVault } from '@/modules/sdk.helpers';
 
 interface SortedValues {
   poolTokens: string[];
@@ -71,6 +71,12 @@ type EncodeExitParams = Pick<
 };
 
 export class StablePoolExit implements ExitConcern {
+  private balancerVault: string;
+
+  constructor(chainId: number) {
+    this.balancerVault = getVault(chainId);
+  }
+
   buildExitExactBPTIn = ({
     exiter,
     pool,
@@ -489,7 +495,7 @@ export class StablePoolExit implements ExitConcern {
     userData,
     toInternalBalance,
   }: EncodeExitParams): ExitPoolAttributes => {
-    const to = balancerVault;
+    const to = this.balancerVault;
     const functionName = 'exitPool';
     const attributes: ExitPool = {
       poolId,

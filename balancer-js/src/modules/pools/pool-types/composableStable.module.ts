@@ -13,11 +13,17 @@ import {
 } from './concerns/types';
 
 export class ComposableStable implements PoolType {
-  constructor(
-    public exit: ExitConcern = new ComposableStablePoolExit(),
-    public liquidity: LiquidityConcern = new StablePoolLiquidity(),
-    public spotPriceCalculator: SpotPriceConcern = new PhantomStablePoolSpotPrice(),
-    public priceImpactCalculator: PriceImpactConcern = new StablePoolPriceImpact(),
-    public join: JoinConcern = new ComposableStablePoolJoin()
-  ) {}
+  public exit: ExitConcern;
+  public liquidity: LiquidityConcern;
+  public spotPriceCalculator: SpotPriceConcern;
+  public priceImpactCalculator: PriceImpactConcern;
+  public join: JoinConcern;
+
+  constructor(chainId: number) {
+    this.exit = new ComposableStablePoolExit(chainId);
+    this.liquidity = new StablePoolLiquidity();
+    this.spotPriceCalculator = new PhantomStablePoolSpotPrice();
+    this.priceImpactCalculator = new StablePoolPriceImpact();
+    this.join = new ComposableStablePoolJoin(chainId);
+  }
 }

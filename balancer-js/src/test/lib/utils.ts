@@ -28,7 +28,6 @@ import {
   BALANCER_NETWORK_CONFIG,
   ERC20__factory,
 } from '@/.';
-import { balancerVault } from '@/lib/constants/config';
 import { parseEther } from '@ethersproject/units';
 import { setBalance } from '@nomicfoundation/hardhat-network-helpers';
 
@@ -42,6 +41,7 @@ import polygonPools from '../fixtures/pools-polygon.json';
 import { PoolsJsonRepository } from './pools-json-repository';
 import { Contracts } from '@/modules/contracts/contracts.module';
 import { SubgraphPool } from '@/modules/subgraph/subgraph';
+import { getVault } from '@/modules/sdk.helpers';
 
 dotenv.config();
 
@@ -199,6 +199,8 @@ export const approveToken = async (
   signer: JsonRpcSigner
 ): Promise<boolean> => {
   const tokenContract = ERC20__factory.connect(token, signer);
+  const chainId = await signer.getChainId();
+  const balancerVault = getVault(chainId);
   const txReceipt = await (
     await tokenContract.approve(balancerVault, amount)
   ).wait();

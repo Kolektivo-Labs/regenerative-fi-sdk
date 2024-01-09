@@ -3,7 +3,6 @@ import { BigNumber } from '@ethersproject/bignumber';
 
 import { BalancerError, BalancerErrorCode } from '@/balancerErrors';
 import { Vault__factory } from '@/contracts/factories/Vault__factory';
-import { balancerVault } from '@/lib/constants/config';
 import {
   AssetHelpers,
   parsePoolInfo,
@@ -24,6 +23,7 @@ import {
   JoinPool,
 } from '../types';
 import { AddressZero } from '@ethersproject/constants';
+import { getVault } from '@/modules/sdk.helpers';
 
 interface SortedValues {
   sortedAmountsIn: string[];
@@ -42,6 +42,12 @@ type SortedInputs = SortedValues &
   };
 
 export class ComposableStablePoolJoin implements JoinConcern {
+  private balancerVault: string;
+
+  constructor(chainId: number) {
+    this.balancerVault = getVault(chainId);
+  }
+
   buildJoin = ({
     joiner,
     pool,
@@ -79,7 +85,7 @@ export class ComposableStablePoolJoin implements JoinConcern {
 
     return {
       ...encodedData,
-      to: balancerVault,
+      to: this.balancerVault,
       value,
       priceImpact,
     };

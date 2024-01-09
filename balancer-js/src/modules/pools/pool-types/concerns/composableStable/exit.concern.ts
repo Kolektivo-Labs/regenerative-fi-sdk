@@ -16,7 +16,6 @@ import {
   _downscaleDownArray,
   _upscaleArray,
 } from '@/lib/utils/solidityMaths';
-import { balancerVault } from '@/lib/constants/config';
 import { ComposableStablePoolEncoder } from '@/pool-composable-stable';
 import { Pool } from '@/types';
 import {
@@ -30,6 +29,7 @@ import {
 } from '../types';
 import { BasePoolEncoder } from '@/pool-base';
 import { StablePoolPriceImpact } from '../stable/priceImpact.concern';
+import { getVault } from '@/modules/sdk.helpers';
 
 interface SortedValues {
   poolTokens: string[];
@@ -80,6 +80,12 @@ type EncodeExitParams = Pick<
 };
 
 export class ComposableStablePoolExit implements ExitConcern {
+  private balancerVault: string;
+
+  constructor(chainId: number) {
+    this.balancerVault = getVault(chainId);
+  }
+
   buildExitExactBPTIn = ({
     exiter,
     pool,
@@ -586,7 +592,7 @@ export class ComposableStablePoolExit implements ExitConcern {
       toInternalBalance,
     } = params;
 
-    const to = balancerVault;
+    const to = this.balancerVault;
     const functionName = 'exitPool';
     const attributes: ExitPool = {
       poolId: poolId,

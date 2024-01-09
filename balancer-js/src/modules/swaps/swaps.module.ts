@@ -14,7 +14,6 @@ import {
   SwapsOptions,
 } from './types';
 import { queryBatchSwap, getSorSwapInfo } from './queryBatchSwap';
-import { balancerVault } from '@/lib/constants/config';
 import { getLimitsForSlippage } from './helpers';
 import { BalancerSdkConfig } from '@/types';
 import { SwapInput } from './types';
@@ -30,6 +29,7 @@ import {
 import { BigNumber } from '@ethersproject/bignumber';
 import { AddressZero } from '@ethersproject/constants';
 import { GraphQLArgs } from '@/lib/graphql';
+import { getVault } from '../sdk.helpers';
 
 const buildRouteDefaultOptions = {
   maxPools: 4,
@@ -55,6 +55,8 @@ export class Swaps {
         this.chainId = sorOrConfig.network as number;
       else this.chainId = sorOrConfig.network.chainId;
     }
+
+    const balancerVault = getVault(this.chainId);
 
     this.vaultContract = Vault__factory.connect(
       balancerVault,

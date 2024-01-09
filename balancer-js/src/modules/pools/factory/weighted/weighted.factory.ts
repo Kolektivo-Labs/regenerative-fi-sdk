@@ -6,7 +6,7 @@ import { JsonRpcProvider, TransactionReceipt } from '@ethersproject/providers';
 
 import { Vault__factory } from '@/contracts/factories/Vault__factory';
 import { WeightedPoolFactory__factory } from '@/contracts/factories/WeightedPoolFactory__factory';
-import { balancerVault, networkAddresses } from '@/lib/constants/config';
+import { networkAddresses } from '@/lib/constants/config';
 import {
   AssetHelpers,
   findEventInReceiptLogs,
@@ -27,10 +27,12 @@ import { WeightedPool__factory } from '@/contracts';
 import { SolidityMaths } from '@/lib/utils/solidityMaths';
 import { BalancerError, BalancerErrorCode } from '@/balancerErrors';
 import { WeightedPoolInterface } from '@/contracts/WeightedPool';
+import { getVault } from '@/modules/sdk.helpers';
 
 export class WeightedFactory implements PoolFactory {
   private wrappedNativeAsset: string;
   private contracts: ContractInstances;
+  private balancerVault: string;
 
   constructor(
     networkConfig: BalancerNetworkConfig,
@@ -39,6 +41,7 @@ export class WeightedFactory implements PoolFactory {
     const { tokens } = networkAddresses(networkConfig.chainId);
     this.wrappedNativeAsset = tokens.wrappedNativeAsset;
     this.contracts = contracts;
+    this.balancerVault = getVault(networkConfig.chainId);
   }
 
   /**
@@ -207,7 +210,7 @@ export class WeightedFactory implements PoolFactory {
     const { functionName, data } = this.encodeInitJoinFunctionData(params);
 
     return {
-      to: balancerVault,
+      to: this.balancerVault,
       functionName,
       data,
       attributes,

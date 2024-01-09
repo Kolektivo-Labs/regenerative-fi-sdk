@@ -13,11 +13,17 @@ import {
 } from './concerns/types';
 
 export class Weighted implements PoolType {
-  constructor(
-    public exit: ExitConcern = new WeightedPoolExit(),
-    public join: JoinConcern = new WeightedPoolJoin(),
-    public liquidity: LiquidityConcern = new WeightedPoolLiquidity(),
-    public spotPriceCalculator: SpotPriceConcern = new WeightedPoolSpotPrice(),
-    public priceImpactCalculator: PriceImpactConcern = new WeightedPoolPriceImpact()
-  ) {}
+  public exit: ExitConcern;
+  public join: JoinConcern;
+  public liquidity: LiquidityConcern;
+  public spotPriceCalculator: SpotPriceConcern;
+  public priceImpactCalculator: PriceImpactConcern;
+
+  constructor(chainId: number) {
+    this.exit = new WeightedPoolExit(chainId);
+    this.join = new WeightedPoolJoin(chainId);
+    this.liquidity = new WeightedPoolLiquidity();
+    this.spotPriceCalculator = new WeightedPoolSpotPrice();
+    this.priceImpactCalculator = new WeightedPoolPriceImpact();
+  }
 }

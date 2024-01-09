@@ -9,6 +9,7 @@ import { BalancerError, BalancerErrorCode } from '@/balancerErrors';
 import { isLinearish } from '@/lib/utils';
 import { FX } from '@/modules/pools/pool-types/fx.module';
 import { Gyro } from '@/modules/pools/pool-types/gyro.module';
+import { getNetworkConfig } from '../sdk.helpers';
 
 /**
  * Wrapper around pool type specific methods.
@@ -16,18 +17,26 @@ import { Gyro } from '@/modules/pools/pool-types/gyro.module';
  * Returns a class instance of a type specific method handlers.
  */
 export class PoolTypeConcerns {
-  constructor(
-    config: BalancerSdkConfig,
-    public weighted = new Weighted(),
-    public stable = new Stable(),
-    public composableStable = new ComposableStable(),
-    public metaStable = new MetaStable(),
-    public stablePhantom = new StablePhantom(),
-    public linear = new Linear()
-  ) {}
+  public weighted: Weighted;
+  public stable: Stable;
+  public composableStable: ComposableStable;
+  public metaStable: MetaStable;
+  public stablePhantom: StablePhantom;
+  public linear: Linear;
+
+  constructor(config: BalancerSdkConfig) {
+    const networkConfig = getNetworkConfig(config);
+    this.weighted = new Weighted(networkConfig.chainId);
+    this.stable = new Stable(networkConfig.chainId);
+    this.composableStable = new ComposableStable(networkConfig.chainId);
+    this.metaStable = new MetaStable(networkConfig.chainId);
+    this.stablePhantom = new StablePhantom();
+    this.linear = new Linear(networkConfig.chainId);
+  }
 
   static from(
-    poolType: PoolType
+    poolType: PoolType,
+    chainId: number
   ):
     | Weighted
     | Stable
@@ -38,7 +47,7 @@ export class PoolTypeConcerns {
     // Calculate spot price using pool type
     switch (poolType) {
       case 'ComposableStable': {
-        return new ComposableStable();
+        return new ComposableStable(chainId);
       }
       case 'FX': {
         return new FX();
@@ -49,10 +58,10 @@ export class PoolTypeConcerns {
         return new Gyro();
       }
       case 'MetaStable': {
-        return new MetaStable();
+        return new MetaStable(chainId);
       }
       case 'Stable': {
-        return new Stable();
+        return new Stable(chainId);
       }
       case 'StablePhantom': {
         return new StablePhantom();
@@ -60,11 +69,11 @@ export class PoolTypeConcerns {
       case 'Investment':
       case 'LiquidityBootstrapping':
       case 'Weighted': {
-        return new Weighted();
+        return new Weighted(chainId);
       }
       default: {
         // Handles all Linear pool types
-        if (isLinearish(poolType)) return new Linear();
+        if (isLinearish(poolType)) return new Linear(chainId);
         throw new BalancerError(BalancerErrorCode.UNSUPPORTED_POOL_TYPE);
       }
     }
