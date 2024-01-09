@@ -17,6 +17,7 @@ import {
 } from '@/test/factories/pools';
 import { Pool as SdkPool } from '@/types';
 import { formatAddress } from '@/test/lib/utils';
+import { BALANCER_NETWORK_CONFIG } from '@/lib/constants/config';
 
 function checkNode(
   node: Node,
@@ -251,7 +252,7 @@ describe('Graph', () => {
       const poolProvider = new PoolsStaticRepository(
         linearInfo.linearPools as unknown as SdkPool[]
       );
-      poolsGraph = new PoolGraph(poolProvider);
+      poolsGraph = new PoolGraph(poolProvider, BALANCER_NETWORK_CONFIG[1]);
     });
     context('using non-wrapped tokens', () => {
       before(async () => {
@@ -327,7 +328,7 @@ describe('Graph', () => {
       const poolProvider = new PoolsStaticRepository(
         pools as unknown as SdkPool[]
       );
-      poolsGraph = new PoolGraph(poolProvider);
+      poolsGraph = new PoolGraph(poolProvider, BALANCER_NETWORK_CONFIG[1]);
     });
 
     it('should throw when pool doesnt exist', async () => {
@@ -487,7 +488,7 @@ describe('Graph', () => {
       const poolProvider = new PoolsStaticRepository(
         pools as unknown as SdkPool[]
       );
-      poolsGraph = new PoolGraph(poolProvider);
+      poolsGraph = new PoolGraph(poolProvider, BALANCER_NETWORK_CONFIG[1]);
     });
 
     context('using wrapped tokens', () => {
@@ -647,7 +648,7 @@ describe('Graph', () => {
       const poolProvider = new PoolsStaticRepository(
         pools as unknown as SdkPool[]
       );
-      poolsGraph = new PoolGraph(poolProvider);
+      poolsGraph = new PoolGraph(poolProvider, BALANCER_NETWORK_CONFIG[1]);
     });
 
     context('using wrapped tokens', () => {

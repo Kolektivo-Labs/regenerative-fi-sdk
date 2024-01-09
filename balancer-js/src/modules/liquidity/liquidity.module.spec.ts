@@ -9,6 +9,7 @@ import tokens from '@/test/fixtures/liquidityTokens.json';
 import { StaticTokenPriceProvider } from '../data';
 import { formatFixed, parseFixed } from '@ethersproject/bignumber';
 import { tokensToTokenPrices } from '@/lib/utils';
+import { BALANCER_NETWORK_CONFIG } from '@/lib/constants/config';
 
 const tokenPrices = tokensToTokenPrices(tokens);
 
@@ -18,7 +19,11 @@ const poolProvider = new PoolsStaticRepository(pools as Pool[]);
 let liquidityProvider: Liquidity;
 
 beforeEach(() => {
-  liquidityProvider = new Liquidity(poolProvider, tokenPriceProvider);
+  liquidityProvider = new Liquidity(
+    poolProvider,
+    tokenPriceProvider,
+    BALANCER_NETWORK_CONFIG[1]
+  );
 });
 
 function findPool(address: string): Pool {
