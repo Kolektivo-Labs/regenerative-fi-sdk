@@ -87,6 +87,18 @@ export const TOKENS_ALFAJORES: TokenConstants = {
   },
 };
 
+export const TOKENS_CELO: TokenConstants = {
+  Popular: {
+    Symbols: ['wCELO, cUSD'],
+  },
+  Addresses: {
+    nativeAsset: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+    wNativeAsset: '0x471EcE3750Da237f93B8E339c536989b8978a438',
+    WETH: '0x524d97a67f50f4a062c28c74f60703aec9028a94',
+    BAL: '',
+  },
+};
+
 export const TOKENS_GOERLI: TokenConstants = {
   Popular: {
     Symbols: ['WBTC', 'DAI', 'USDC', 'BAL', 'USDT', 'WETH'],
