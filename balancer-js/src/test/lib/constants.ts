@@ -19,6 +19,7 @@ export const PROVIDER_URLS = {
   [Network.GNOSIS]: `https://rpc.gnosis.gateway.fm`,
   [Network.ZKEVM]: `https://zkevm-rpc.com`,
   [Network.ALFAJORES]: `https://celo-alfajores.infura.io/v3/${process.env.INFURA}`,
+  [Network.CELO]: `https://celo-mainnet.infura.io/v3/${process.env.INFURA}`,
 };
 
 export type TestAddress = {

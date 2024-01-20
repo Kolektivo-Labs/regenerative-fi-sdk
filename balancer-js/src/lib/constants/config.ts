@@ -17,6 +17,7 @@ export const vaultAddresses: Record<number, string> = {
   [Network.AVALANCHE]: balancerVault,
   [Network.SEPOLIA]: balancerVault,
   [Network.ALFAJORES]: '0xf2D39dd1b3e991f23d8a61bABb1c13873640873F',
+  [Network.CELO]: '0xaD314e606616702223d351184041C2a3DdB6D217',
 };
 
 // Info fetched using npm package slot20
@@ -361,6 +362,52 @@ export const BALANCER_NETWORK_CONFIG: Record<Network, BalancerNetworkConfig> = {
       {
         symbol: 'WCELO',
         address: '0x524d97a67f50f4a062c28c74f60703aec9028a94',
+      },
+    ],
+    sorTriPathMidPoolIds: [
+      '', // 3POOL_BPT/wstETH
+    ],
+  },
+  [Network.CELO]: {
+    chainId: Network.CELO,
+    // Gnosis deployment addresses: https://docs.balancer.fi/reference/contracts/deployment-addresses/gnosis.html
+    addresses: {
+      contracts: {
+        multicall: '0xcA11bde05977b3631167028862bE2a173976CA11',
+        poolDataQueries: '0x265CcE24Df4276d3C9b91CB440Dc335F3281913B',
+        authorizer: '0x41def10bCA43d6564b02c82368A4344110B8D191',
+        vault: '0xaD314e606616702223d351184041C2a3DdB6D217',
+        protocolFeesCollector: '0x150B1b3BF3De6a0ED6AAa34639ed17a27031B201',
+        balancerHelpers: '0x35c2FA3d9f6DDdb5Fe932Af5CB4824EAf2a94607',
+        protocolFeePercentagesProvider:
+          '0xE5ae349Db84Ae3F43C8d95e91b4a2478D692aEAE',
+        weightedPoolFactory: '0xEB1055c017a1427726F01368C8247649c5A79bF9',
+        mockWeightedPool: '0x5cf777d514da7f74aca81a537066040CAe75B1d1',
+        balancerPoolDataQueries: '0x265CcE24Df4276d3C9b91CB440Dc335F3281913B',
+        balancerRelayer: '',
+      },
+      tokens: {
+        wrappedNativeAsset: '0x471EcE3750Da237f93B8E339c536989b8978a438',
+        bal: '',
+      },
+    },
+    urls: {
+      subgraph:
+        'https://api.studio.thegraph.com/query/63886/refi-celo/version/latest',
+      gaugesSubgraph: '',
+    },
+    thirdParty: {
+      coingecko: {
+        nativeAssetId: 'celo',
+        platformId: 'celo',
+      },
+    },
+    averageBlockTime: 5,
+    pools: {},
+    sorConnectingTokens: [
+      {
+        symbol: 'CELO',
+        address: '0x471EcE3750Da237f93B8E339c536989b8978a438',
       },
     ],
     sorTriPathMidPoolIds: [
